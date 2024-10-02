@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block content %}
+{% block title %}
+<title>
+  Show Task Page
+</title>
+{% endblock %}
+ {%if data%}
+<div class="row">
+  {% for taskView in data %}
+  <div class="col-sm-3 p-4">
+    <div class="card">
+      <div class="card-body text-center">
+        <h5 class="card-title">Task id: {{ taskView.id }}</h5>
+        <h5>Task Assigned Date: {{ taskView.Task_Assgin_Date }}</h5>
+        <h6>
+          <p class="card-text">
+            TaskDescription: {{ taskView.taskDescription }}
+          </p>
+        </h6>
+
+        <h4 class="text-center">Task Category:</h4>
+
+        <div class="d-flex flex-wrap justify-content-center">
+          {% for category in taskView.category.all %}
+          <div class="m-1">
+            <button class="btn btn-primary disabled btn-sm">
+              {{ category.category_name }}
+            </button>
+          </div>
+          {% endfor %}
+        </div>
+        {% if taskView.is_completed == True%}
+        <h3 class="">Task is</h3>
+        <button class="btn btn-success mx-1 disabled">Completed</button>
+
+        {%else%}
+        <a href="{% url 'task_edit' taskView.id%}">
+          <button class="btn btn-warning mx-1">edit</button>
+        </a>
+        <a href="{% url 'task_delete' taskView.id%}">
+          <button class="btn btn-danger mx-1">delete</button>
+        </a>
+        {% endif%}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{%else%}
+<h1>data is not Availabel</h1>
+{%endif%} {% endblock %}
